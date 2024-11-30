@@ -4,22 +4,23 @@ from PyQt6.QtWidgets import QApplication, QWidget
 from PyQt6.QtCore import QRectF
 from PyQt6 import uic  # Импортируем uic
 from random import randint
+from UI import Ui_Form
 
-class MyApplication(QWidget):
+class MyApplication(QWidget, Ui_Form):
     do_paint = False
-    color = QColor(255, 255, 0)
 
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)  # Загружаем дизайн
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.paint)
 
     def paintEvent(self, event):
         if self.do_paint:
             qp = QPainter()
             qp.begin(self)
-            qp.setPen(self.color)
-            qp.setBrush(self.color)
+            color = QColor(randint(0, 255), randint(0, 255), randint(0, 255))
+            qp.setPen(color)
+            qp.setBrush(color)
             a = randint(50, 300)
             rectangle = QRectF(11, 50, a, a)
             qp.drawEllipse(rectangle)
